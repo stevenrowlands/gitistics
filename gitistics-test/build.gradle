@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.5
+version = '1.0'
+jar {
+	manifest {
+		attributes 'Implementation-Title': 'Gitistics Test API', 'Implementation-Version': version
+	}
+}
+
+repositories { 
+	mavenCentral() 
+}
+
+dependencies {
+	compile 'org.eclipse.jgit:org.eclipse.jgit:2.1.0.201209190230-r'
+	compile 'commons-io:commons-io:2.4'
+	compile 'commons-collections:commons-collections:3.2'
+	compile 'org.slf4j:slf4j-api:1.7.5'
+}
+
+uploadArchives {
+	repositories { flatDir { dirs 'repos' } }
+}

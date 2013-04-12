@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.5
+version = '1.0'
+jar {
+	manifest {
+		attributes 'Implementation-Title': 'Gitistics Core', 'Implementation-Version': version
+	}
+}
+
+repositories { 
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.eclipse.jgit:org.eclipse.jgit:2.1.0.201209190230-r'
+	compile 'org.gitective:gitective-core:0.9.9'
+	compile 'commons-collections:commons-collections:3.2'
+	compile 'commons-lang:commons-lang:2.6'
+	compile 'joda-time:joda-time:2.2'
+	testCompile project(':gitistics-test')
+	testCompile 'org.hamcrest:hamcrest-library:1.3'
+	testCompile 'org.mockito:mockito-core:1.9.5'
+	testRuntime 'ch.qos.logback:logback-classic:1.0.11'
+}
+
+uploadArchives {
+	repositories {
+		flatDir { dirs 'repos' }
+	}
+}
