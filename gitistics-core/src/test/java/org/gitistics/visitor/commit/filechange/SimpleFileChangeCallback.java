@@ -1,17 +1,20 @@
 package org.gitistics.visitor.commit.filechange;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleFileChangeCallback implements FileChangeCallback {
-	
-	private List<FileChange> filesChanged = new ArrayList<FileChange>();
-	
-	public void fileChanged(FileChange change) {
-		filesChanged.add(change);
+
+	private FileChanges changes;
+
+	public void filesChanged(FileChanges change) {
+		this.changes = change;
+	}
+
+	public FileChanges getChanges() {
+		return changes;
 	}
 
 	public List<FileChange> getFilesChanged() {
-		return filesChanged;
+		return changes.getChanges();
 	}
 }

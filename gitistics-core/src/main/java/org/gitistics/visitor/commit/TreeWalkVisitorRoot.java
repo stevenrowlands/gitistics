@@ -13,6 +13,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.gitistics.treewalk.TreeWalkUtils;
 import org.gitistics.visitor.commit.filechange.FileChange;
+import org.gitistics.visitor.commit.filechange.FileChanges;
 
 public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 
@@ -33,14 +34,17 @@ public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 		
 		TreeWalk walk = TreeWalkUtils.treeWalkForCommit(repository, commit);
 		try {
+			FileChanges changes = new FileChanges(commit);
 			while (walk.next()) {
+				EditList edits = handleEdits(commit, walk);
 				FileChange file = new FileChange();
 				file.setPath(walk.getPathString());
 				file.setChangeType(ChangeType.ADD);
 				file.setCommit(commit);
-				callback(file);
-				handleEdits(commit, walk);
+				file.setEdits(edits);
+				changes.addChange(file);	
 			}
+			callback(changes);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -48,9 +52,9 @@ public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 		}
 	}
 
-	public void handleEdits(RevCommit commit, TreeWalk walk) {
+	public EditList handleEdits(RevCommit commit, TreeWalk walk) {
 		if (!hasEditVisitors())
-			return;
+			return null;
 		
 		try {
 			ObjectLoader loader = reader.open(walk.getObjectId(walk.getTreeCount() - 1));
@@ -58,8 +62,7 @@ public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 			RawText a = new RawText(loader.getBytes());
 			RawText b = new RawText(new byte[0]);
 
-			EditList edits = algorithm.diff(RawTextComparator.DEFAULT, b, a);
-			edit(commit, null, edits);
+			return algorithm.diff(RawTextComparator.DEFAULT, b, a);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {

@@ -12,7 +12,7 @@ public class TreeWalkUtils {
 		if (commit.getParentCount() == 0) {
 			walk.setFilter(new SingleTreeDiffFilter(0));
 		} else {
-			walk.setFilter(new SingleTreeDiffFilter(commit.getParentCount() - 1));
+			walk.setFilter(new SingleTreeDiffFilter(commit.getParentCount()));
 		}
 		walk.setRecursive(true);
 		return walk;

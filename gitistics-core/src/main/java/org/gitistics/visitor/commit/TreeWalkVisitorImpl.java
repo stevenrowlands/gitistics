@@ -26,7 +26,7 @@ public class TreeWalkVisitorImpl implements CommitVisitor {
 		this.standard.setEditVisitors(editVisitors);
 	}
 	
-	public void setFileChangeCallback(FileChangeCallback... fileChangeCallbacks) {
+	public void setFileChangeCallbacks(FileChangeCallback... fileChangeCallbacks) {
 		this.root.setFileChangeCallback(fileChangeCallbacks);
 		this.standard.setFileChangeCallback(fileChangeCallbacks);
 	}

@@ -3,5 +3,5 @@ package org.gitistics.visitor.commit.filechange;
 
 public interface FileChangeCallback {
 
-	public void fileChanged(FileChange change);
+	public void filesChanged(FileChanges change);
 }

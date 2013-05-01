@@ -3,8 +3,8 @@ package org.gitistics.visitor.commit;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitistics.visitor.commit.edit.EditListVisitor;
-import org.gitistics.visitor.commit.filechange.FileChange;
 import org.gitistics.visitor.commit.filechange.FileChangeCallback;
+import org.gitistics.visitor.commit.filechange.FileChanges;
 
 public abstract class AbstractCommitVisitor implements CommitVisitor {
 
@@ -20,10 +20,10 @@ public abstract class AbstractCommitVisitor implements CommitVisitor {
 		return editVisitors != null && editVisitors.length > 0;
 	}
 	
-	protected void callback(FileChange change) {
+	protected void callback(FileChanges changes) {
 		if (!hasCallbacks()) return;
 		for (FileChangeCallback callback : fileChangeCallbacks) {
-			callback.fileChanged(change);
+			callback.filesChanged(changes);
 		}
 	}
 	

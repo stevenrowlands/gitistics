@@ -149,7 +149,7 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 	/**
 	 * Test merge from two parents where we've modified against both branches
 	 * 
-	 * Expect that we get two files changed, one against each parent
+	 * Expect that we get two change sets, one against each parent
 	 * 
 	 * master - merge
 	 * |                \
@@ -164,14 +164,14 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 		git.commit("commit1");
 		git.branch("branch1");
 		git.checkout("master");
-		git.modify("file1", "ABCD\nX\nY");
+		git.modify("file1", "A\nB\nC\nD\nX\nY\n");
 		git.commit("commit2");
 		git.checkout("branch1");
-		git.modify("file1", "ABCD\nE\nF");
+		git.modify("file1", "A\nB\nC\nD\nE\nF\n");
 		RevCommit commit3 = git.commit("commit3").get();
 		git.checkout("master");
 		git.merge(commit3);
-		git.modify("file1", "ABCD\nE\nF\nG\nH");
+		git.modify("file1", "A\nB\nC\nD\nE\nF\nG\nH");
 		RevCommit res = git.commit("Resolved").get();
 		execute(res, callback);
 		assertThat(callback.getFilesChanged().size(), equalTo(2));
@@ -209,11 +209,10 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 		git.merge(commit3);
 		git.modify("file1", "ABCD\nE\nF");
 		RevCommit res = git.commit("Resolved").get();
+		assertThat(res.getParentCount(), equalTo(2));
 		execute(res, callback);
 		assertThat(callback.getFilesChanged().size(), equalTo(0));
 	}
-	
-	
 	
 	@Test
 	public void testCommitRename() throws Exception {

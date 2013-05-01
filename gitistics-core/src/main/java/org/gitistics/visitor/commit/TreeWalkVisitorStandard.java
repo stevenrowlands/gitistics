@@ -15,14 +15,13 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.gitistics.treewalk.RawPathFilter;
 import org.gitistics.treewalk.TreeWalkUtils;
 import org.gitistics.visitor.commit.filechange.FileChange;
+import org.gitistics.visitor.commit.filechange.FileChanges;
 
 public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 
 	private DiffFormatter formatter;
 	
 	private Repository repository;
-	
-	private List<byte []> rawBytes;
 	
 	public TreeWalkVisitorStandard(Repository repository) {
 		this.repository = repository;
@@ -38,35 +37,36 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 
 		formatter.setPathFilter(new RawPathFilter(getRawBytes(commit)));
 		
+		FileChanges changes = new FileChanges(commit);
 		for (RevCommit parent : commit.getParents()) {
-			diffCommitWithParent(commit, parent);
+			List<DiffEntry> entries = diffCommitWithParent(commit, parent);
+			for (DiffEntry e : entries) {
+				FileChange change = handleFileChangeCallbacks(commit, parent, e);
+				changes.addChange(change);
+			}
 		}
+		callback(changes);
 	}
 	
 	private List<byte []> getRawBytes(RevCommit commit) {
-		if (rawBytes == null) {
-			TreeWalk walk = TreeWalkUtils.treeWalkForCommit(repository, commit);
-			rawBytes = new ArrayList<byte[]>();
-			try {
-				while (walk.next()) {
-					rawBytes.add(walk.getRawPath());
-				}
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			} finally {
-				walk.release();
+		TreeWalk walk = TreeWalkUtils.treeWalkForCommit(repository, commit);
+		List<byte []> rawBytes = new ArrayList<byte[]>();
+		try {
+			while (walk.next()) {
+				rawBytes.add(walk.getRawPath());
 			}
+			return rawBytes;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			walk.release();
 		}
-		return rawBytes;
 	}
 
-	private void diffCommitWithParent(RevCommit commit, RevCommit parent) {
+	private List<DiffEntry> diffCommitWithParent(RevCommit commit, RevCommit parent) {
 		try {
-			List<DiffEntry> entries = formatter.scan(parent, commit);
-			for (DiffEntry e : entries) {
-				handleFileChangeCallbacks(commit, e);
-				handleEdits(commit, parent, e);
-			}
+			formatter.setContext(0);
+			return formatter.scan(parent, commit);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -74,22 +74,25 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 		}
 	}
 
-	private void handleFileChangeCallbacks(RevCommit commit, DiffEntry entry) {
+	private FileChange handleFileChangeCallbacks(RevCommit commit, RevCommit parent, DiffEntry entry)  {
+		EditList edits = handleEdits(commit, parent, entry);
 		FileChange change = new FileChange();
 		change.setChangeType(entry.getChangeType());
-		change.setPath(entry.getNewPath());
+		if (entry.getNewPath() == null) // deleted
+			change.setPath(entry.getOldPath());
+		else 
+			change.setPath(entry.getNewPath());
 		change.setCommit(commit);
-		callback(change);
+		change.setEdits(edits);
+		change.setParent(parent);
+		return change;
 	}
 
-	private void handleEdits(RevCommit commit, RevCommit parent, DiffEntry entry) {
-		if (!hasEditVisitors())
-			return;
-
+	private EditList handleEdits(RevCommit commit, RevCommit parent, DiffEntry entry) {
 		try {
+			formatter.setContext(0);
 			FileHeader h = formatter.toFileHeader(entry);
-			EditList edits = h.toEditList();
-			edit(commit, parent, edits);
+			return h.toEditList();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
