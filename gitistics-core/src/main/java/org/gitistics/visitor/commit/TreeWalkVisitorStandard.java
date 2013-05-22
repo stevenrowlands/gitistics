@@ -25,27 +25,25 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 
 	private static final Logger log = LoggerFactory.getLogger(TreeWalkVisitorStandard.class);
 	
-	private DiffFormatter formatter;
-	
 	private Repository repository;
 	
 	public TreeWalkVisitorStandard(Repository repository) {
 		this.repository = repository;
-		this.formatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
-		formatter.setRepository(repository);
-		formatter.setDiffComparator(RawTextComparator.DEFAULT);
-		formatter.setDetectRenames(true);
 	}
 
 	public void visit(RevCommit commit) {
 		if (commit.getParentCount() == 0)
 			return;
 
+		DiffFormatter formatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
+		formatter.setRepository(repository);
+		formatter.setDiffComparator(RawTextComparator.DEFAULT);
+		formatter.setDetectRenames(true);
 		formatter.setPathFilter(new RawPathFilter(getRawBytes(commit)));
 		
 		FileChanges changes = new FileChanges(commit);
 		for (RevCommit parent : commit.getParents()) {
-			List<DiffEntry> entries = diffCommitWithParent(commit, parent);
+			List<DiffEntry> entries = diffCommitWithParent(formatter, commit, parent);
 			for (DiffEntry e : entries) {
 				String path = getPath(e);
 				try {
@@ -57,7 +55,7 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 						changes.addChange(path, change);
 					}
 					change.setCommit(commit);
-					FileEdits edits = getEdits(commit, e);
+					FileEdits edits = getEdits(formatter, commit, e);
 					edits.setParent(parent);
 					change.addEdit(edits);
 				} catch (Throwable t) {
@@ -90,7 +88,7 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 		}
 	}
 
-	private List<DiffEntry> diffCommitWithParent(RevCommit commit, RevCommit parent) {
+	private List<DiffEntry> diffCommitWithParent(DiffFormatter formatter, RevCommit commit, RevCommit parent) {
 		try {
 			formatter.setContext(0);
 			return formatter.scan(parent, commit);
@@ -101,15 +99,15 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 		}
 	}
 
-	private FileEdits getEdits(RevCommit commit, DiffEntry entry) {
-		EditList edits = handleEdits(commit, entry);
+	private FileEdits getEdits(DiffFormatter formatter, RevCommit commit, DiffEntry entry) {
+		EditList edits = handleEdits(formatter, commit, entry);
 		FileEdits fileEdits = new FileEdits();
 		fileEdits.setChangeType(entry.getChangeType());
 		fileEdits.setEdits(edits);
 		return fileEdits;
 	}
 
-	private EditList handleEdits(RevCommit commit, DiffEntry entry) {
+	private EditList handleEdits(DiffFormatter formatter, RevCommit commit, DiffEntry entry) {
 		try {
 			formatter.setContext(0);
 			FileHeader h = formatter.toFileHeader(entry);
