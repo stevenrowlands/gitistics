@@ -2,7 +2,6 @@ package org.gitistics.visitor.commit;
 
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.gitistics.visitor.commit.edit.EditListVisitor;
 import org.gitistics.visitor.commit.filechange.FileChangeCallback;
 
 public class TreeWalkVisitorImpl implements CommitVisitor {
@@ -19,11 +18,6 @@ public class TreeWalkVisitorImpl implements CommitVisitor {
 	public void visit(RevCommit commit) {
 		root.visit(commit);
 		standard.visit(commit); 
-	}
-
-	public void setEditVisitors(EditListVisitor... editVisitors) {
-		this.root.setEditVisitors(editVisitors);
-		this.standard.setEditVisitors(editVisitors);
 	}
 	
 	public void setFileChangeCallbacks(FileChangeCallback... fileChangeCallbacks) {

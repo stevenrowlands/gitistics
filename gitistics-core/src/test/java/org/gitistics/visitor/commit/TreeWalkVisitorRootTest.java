@@ -63,8 +63,8 @@ public class TreeWalkVisitorRootTest extends AbstractGitTest {
 		git.add("file2", "A");
 		execute(git.commit("commit1").get(), callback);
 		assertThat(callback.getFilesChanged().size(), equalTo(2));
-		assertThat(callback.getFilesChanged().get(0).getChangeType(), equalTo(ChangeType.ADD));
-		assertThat(callback.getFilesChanged().get(1).getChangeType(), equalTo(ChangeType.ADD));
+		assertThat(callback.getFileChange(0).getEdit(0).getChangeType(), equalTo(ChangeType.ADD));
+		assertThat(callback.getFileChange(1).getEdit(0).getChangeType(), equalTo(ChangeType.ADD));
 	}
 
 }

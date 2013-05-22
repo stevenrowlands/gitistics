@@ -55,7 +55,7 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 		RevCommit commit2 = git.commit("commit2").get();
 		execute(commit2, callback);
 		assertThat(callback.getFilesChanged().size(), equalTo(1));
-		assertThat(callback.getFilesChanged().get(0).getChangeType(), equalTo(ChangeType.ADD));
+		assertThat(callback.getFilesChanged().get(0).getEdits().get(0).getChangeType(), equalTo(ChangeType.ADD));
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 		RevCommit commit2 = git.commit("commit2").get();
 		execute(commit2, callback);
 		assertThat(callback.getFilesChanged().size(), equalTo(1));
-		assertThat(callback.getFilesChanged().get(0).getChangeType(), equalTo(ChangeType.DELETE));
+		assertThat(callback.getFilesChanged().get(0).getEdits().get(0).getChangeType(), equalTo(ChangeType.DELETE));
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 		RevCommit commit2 = git.commit("commit2").get();
 		execute(commit2, callback);
 		assertThat(callback.getFilesChanged().size(), equalTo(1));
-		assertThat(callback.getFilesChanged().get(0).getChangeType(), equalTo(ChangeType.MODIFY));
+		assertThat(callback.getFilesChanged().get(0).getEdits().get(0).getChangeType(), equalTo(ChangeType.MODIFY));
 	}
 	
 	/**
@@ -174,7 +174,8 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 		git.modify("file1", "A\nB\nC\nD\nE\nF\nG\nH");
 		RevCommit res = git.commit("Resolved").get();
 		execute(res, callback);
-		assertThat(callback.getFilesChanged().size(), equalTo(2));
+		assertThat(callback.getFilesChanged().size(), equalTo(1));
+		assertThat(callback.getFilesChanged().get(0).getEdits().size(), equalTo(2));
 	}
 	
 	/**
@@ -225,7 +226,7 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 		    	.get();
 		execute(commit2, callback);
 		assertThat(callback.getFilesChanged().size(), equalTo(1));
-		assertThat(callback.getFilesChanged().get(0).getChangeType(), equalTo(ChangeType.RENAME));
+		assertThat(callback.getFilesChanged().get(0).getEdits().get(0).getChangeType(), equalTo(ChangeType.RENAME));
 	}
 	
 	
@@ -240,7 +241,7 @@ public class TreeWalkVisitorStandardTest extends AbstractGitTest {
 		RevCommit commit2 = git.commit("commit2").get();
 		execute(commit2, callback);
 		assertThat(callback.getFilesChanged().size(), equalTo(2));
-		assertThat(callback.getFilesChanged().get(0).getChangeType(), equalTo(ChangeType.RENAME));
-		assertThat(callback.getFilesChanged().get(1).getChangeType(), equalTo(ChangeType.COPY));
+		assertThat(callback.getFilesChanged().get(0).getEdits().get(0).getChangeType(), equalTo(ChangeType.RENAME));
+		assertThat(callback.getFilesChanged().get(1).getEdits().get(0).getChangeType(), equalTo(ChangeType.COPY));
 	}
 }

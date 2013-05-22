@@ -1,20 +1,17 @@
 package org.gitistics.visitor.commit.filechange;
 
-import org.eclipse.jgit.diff.DiffEntry.ChangeType;
-import org.eclipse.jgit.diff.EditList;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class FileChange {
 	
 	private RevCommit commit;
-	
-	private RevCommit parent;
-	
-	private ChangeType changeType;
 
 	private String path;
 	
-	private EditList edits;
+	private List<FileEdits> edits = new ArrayList<FileEdits>();
 	
 	public RevCommit getCommit() {
 		return commit;
@@ -24,14 +21,13 @@ public class FileChange {
 		this.commit = commit;
 	}
 
-	public ChangeType getChangeType() {
-		return changeType;
+	public String getExtension() {
+		if (path.contains(".")) {
+			return path.substring(path.lastIndexOf(".") + 1);
+		}
+		return "";
 	}
-
-	public void setChangeType(ChangeType changeType) {
-		this.changeType = changeType;
-	}
-
+	
 	public String getPath() {
 		return path;
 	}
@@ -40,23 +36,23 @@ public class FileChange {
 		this.path = path;
 	}
 
-	public RevCommit getParent() {
-		return parent;
+	public LineChanges getLineChanges() {
+		return new LineChanges(this);
 	}
 
-	public void setParent(RevCommit parent) {
-		this.parent = parent;
-	}
-
-	public EditList getEdits() {
+	public List<FileEdits> getEdits() {
 		return edits;
 	}
 
-	public void setEdits(EditList edits) {
+	public FileEdits getEdit(int index) {
+		return edits.get(index);
+	}
+
+	public void setEdits(List<FileEdits> edits) {
 		this.edits = edits;
 	}
-	
-	public LineChanges getLineChanges() {
-		return new LineChanges(this);
+
+	public void addEdit(FileEdits edit) {
+		edits.add(edit);
 	}
 }

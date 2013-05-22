@@ -14,6 +14,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.gitistics.treewalk.TreeWalkUtils;
 import org.gitistics.visitor.commit.filechange.FileChange;
 import org.gitistics.visitor.commit.filechange.FileChanges;
+import org.gitistics.visitor.commit.filechange.FileEdits;
 
 public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 
@@ -38,11 +39,13 @@ public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 			while (walk.next()) {
 				EditList edits = handleEdits(commit, walk);
 				FileChange file = new FileChange();
+				FileEdits fileEdits = new FileEdits();
+				file.addEdit(fileEdits);
 				file.setPath(walk.getPathString());
-				file.setChangeType(ChangeType.ADD);
+				fileEdits.setChangeType(ChangeType.ADD);
+				fileEdits.setEdits(edits);
 				file.setCommit(commit);
-				file.setEdits(edits);
-				changes.addChange(file);	
+				changes.addChange(file.getPath(), file);	
 			}
 			callback(changes);
 		} catch (Exception e) {
@@ -53,7 +56,7 @@ public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 	}
 
 	public EditList handleEdits(RevCommit commit, TreeWalk walk) {
-		if (!hasEditVisitors())
+		if (!hasCallbacks())
 			return null;
 		
 		try {

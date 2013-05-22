@@ -17,4 +17,8 @@ public class SimpleFileChangeCallback implements FileChangeCallback {
 	public List<FileChange> getFilesChanged() {
 		return changes.getChanges();
 	}
+
+	public FileChange getFileChange(int index) {
+		return changes.getChange(index);
+	}
 }
