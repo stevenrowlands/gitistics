@@ -16,6 +16,7 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.gitistics.treewalk.RawPathFilter;
 import org.gitistics.treewalk.TreeWalkUtils;
 import org.gitistics.visitor.commit.filechange.FileChange;
+import org.gitistics.visitor.commit.filechange.FileChangeCallback;
 import org.gitistics.visitor.commit.filechange.FileChanges;
 import org.gitistics.visitor.commit.filechange.FileEdits;
 import org.slf4j.Logger;
@@ -27,7 +28,8 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 	
 	private Repository repository;
 	
-	public TreeWalkVisitorStandard(Repository repository) {
+	public TreeWalkVisitorStandard(Repository repository, FileChangeCallback... fileChangeCallbacks) {
+		super(fileChangeCallbacks);
 		this.repository = repository;
 	}
 
@@ -41,7 +43,7 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 		formatter.setDetectRenames(true);
 		formatter.setPathFilter(new RawPathFilter(getRawBytes(commit)));
 		
-		FileChanges changes = new FileChanges(commit);
+		FileChanges changes = new FileChanges(repository, commit);
 		for (RevCommit parent : commit.getParents()) {
 			List<DiffEntry> entries = diffCommitWithParent(formatter, commit, parent);
 			for (DiffEntry e : entries) {

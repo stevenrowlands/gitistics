@@ -10,9 +10,9 @@ public class TreeWalkVisitorImpl implements CommitVisitor {
 	
 	private TreeWalkVisitorStandard standard;
 	
-	public TreeWalkVisitorImpl(Repository repository) {
-		this.root = new TreeWalkVisitorRoot(repository);
-		this.standard = new TreeWalkVisitorStandard(repository);
+	public TreeWalkVisitorImpl(Repository repository, FileChangeCallback... fileChangeCallbacks) {
+		this.root = new TreeWalkVisitorRoot(repository, fileChangeCallbacks);
+		this.standard = new TreeWalkVisitorStandard(repository, fileChangeCallbacks);
 	}
 	
 	public void visit(RevCommit commit) {
@@ -20,8 +20,4 @@ public class TreeWalkVisitorImpl implements CommitVisitor {
 		standard.visit(commit); 
 	}
 	
-	public void setFileChangeCallbacks(FileChangeCallback... fileChangeCallbacks) {
-		this.root.setFileChangeCallback(fileChangeCallbacks);
-		this.standard.setFileChangeCallback(fileChangeCallbacks);
-	}
 }

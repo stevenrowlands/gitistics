@@ -1,0 +1,25 @@
+{
+  "name": "gitistics",
+  "version": "1.0.0",
+  "homepage": "https://github.com/stevenrowlands/gitistics",
+  "authors": [
+    "Steven Rowlands <steven.rowlands@gmail.com>"
+  ],
+  "description": "Git Statistics",
+  "main": "",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.2.15",
+    "angular-route": "1.2.15",
+    "bootstrap": "3.1.1",
+    "angular-bootstrap": "0.10.0",
+    "jquery": "1.11.0"
+  }
+}

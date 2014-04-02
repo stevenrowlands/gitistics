@@ -5,15 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class FileChanges {
 
+	private Repository repository;
+	
 	private RevCommit commit;
 
 	private Map<String, FileChange> changes = new HashMap<String, FileChange>();
 
-	public FileChanges(RevCommit commit) {
+	public FileChanges(Repository repository, RevCommit commit) {
+		this.repository = repository;
 		this.commit = commit;
 	}
 
@@ -36,5 +40,15 @@ public class FileChanges {
 	public RevCommit getCommit() {
 		return this.commit;
 	}
+
+	public Repository getRepository() {
+		return repository;
+	}
+
+	public void setRepository(Repository repository) {
+		this.repository = repository;
+	}
+	
+	
 
 }

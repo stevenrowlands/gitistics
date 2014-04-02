@@ -1,1 +1,1 @@
-include "gitistics-test", "gitistics-core", "gitistics-jpa"
+include "gitistics-test", "gitistics-core", "gitistics-jpa", "gitistics-web"

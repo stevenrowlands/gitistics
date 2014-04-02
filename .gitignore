@@ -15,3 +15,6 @@
 .settings
 .classpath
 .project
+bower
+bower_components
+MANIFEST.MF

@@ -1,0 +1,33 @@
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'jetty'
+
+sourceCompatibility = 1.5
+version = '1.0'
+stopPort = 8081;
+
+repositories {
+    mavenCentral()	
+}
+
+dependencies {
+	compile project(':gitistics-core')
+	compile project(':gitistics-jpa')
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.12'
+	compile 'org.springframework:spring-webmvc:3.2.2.RELEASE'
+	compile 'org.springframework:spring-web:3.2.2.RELEASE'
+	compile 'org.hibernate:hibernate-core:4.2.7.Final'
+	compile 'org.hibernate:hibernate-validator:4.3.1.Final'  
+	runtime 'org.hsqldb:hsqldb:2.3.2'
+	runtime 'ch.qos.logback:logback-classic:1.0.11'
+}
+
+
+task copyToLib(type: Copy) {
+	into "src/main/webapp/WEB-INF/lib"
+	exclude 'gitistics-*'
+	exclude 'servlet-api*'
+	exclude 'jsp-api*'
+	from configurations.runtime
+}

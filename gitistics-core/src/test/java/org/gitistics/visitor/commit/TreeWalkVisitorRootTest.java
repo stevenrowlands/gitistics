@@ -13,8 +13,7 @@ import org.junit.Test;
 public class TreeWalkVisitorRootTest extends AbstractGitTest {
 	
 	protected CommitVisitor getTreeWalker(FileChangeCallback callback) {
-		TreeWalkVisitorRoot root = new TreeWalkVisitorRoot(repo);
-		root.setFileChangeCallback(callback);
+		TreeWalkVisitorRoot root = new TreeWalkVisitorRoot(repo, callback);
 		return root;
 	}
 	
