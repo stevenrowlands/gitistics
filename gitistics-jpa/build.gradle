@@ -1,13 +1,24 @@
+import java.util.logging.LogManager.Cleaner;
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
 sourceCompatibility = 1.5
 version = '1.0'
+
 jar {
 	manifest {
 		attributes 'Implementation-Title': 'Gitistics JPA', 'Implementation-Version': version
 	}
 }
+
+sourceSets {
+	generated
+	entities
+}
+
+sourceSets.generated.java.srcDirs = ['src/main/generated']
+sourceSets.entities.java.srcDirs = ['src/main/entities']
 
 repositories { 
 	mavenCentral() 
@@ -21,6 +32,10 @@ dependencies {
 	compile 'org.springframework:spring-core:3.2.2.RELEASE'
 	compile 'org.springframework:spring-orm:3.2.2.RELEASE'
 	compile 'org.springframework:spring-context:3.2.2.RELEASE'
+	compile 'com.mysema.querydsl:querydsl-core:3.3.2'
+	compile 'com.mysema.querydsl:querydsl-apt:3.3.2'
+    compile 'com.mysema.querydsl:querydsl-jpa:3.3.2'
+    compile 'com.mysema.querydsl:querydsl-sql:3.3.2'
 	testCompile project(':gitistics-test')
     testCompile 'org.springframework:spring-test:3.2.2.RELEASE'
 	testCompile 'org.mockito:mockito-core:1.9.5'
@@ -31,3 +46,20 @@ dependencies {
 uploadArchives {
 	repositories { flatDir { dirs 'repos' } }
 }
+
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Process entity annotations and generate the query dsl') {
+	source = sourceSets.entities.java
+	classpath = configurations.compile
+	options.compilerArgs = [
+		    "-nowarn",
+			"-proc:only",
+			"-processor",
+			"com.mysema.query.apt.jpa.JPAAnnotationProcessor",
+	]
+	// specify output of generated code
+	destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+}
+
+compileJava.source sourceSets.entities.java, sourceSets.generated.java, sourceSets.main.java
+compileJava.dependsOn generateQueryDSL
+eclipseClasspath.dependsOn generateQueryDSL

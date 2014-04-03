@@ -1,0 +1,20 @@
+<div class="col-sm-12 col-md-12 main">
+	<h2 class="sub-header">By Year</h2>
+	<div id="chartdiv" class="chart"></div>
+	<table class="table table-hover table-striped table-condensed">
+		<tr>
+			<td><b>Repository</b></td>
+			<td><b>Year</b></td>
+			<td><b>Commits</b></td>
+			<td><b>Lines Added</b></td>
+			<td><b>Lines Removed</b></td>
+		</tr>
+		<tr ng-repeat="stat in statistics">
+			<td><p>{{stat.repository}}</p></td>
+			<td><p>{{stat.year}}</p></td>
+			<td><p>{{stat.commits}}</p></td>
+			<td><p>{{stat.linesAdded}}</p></td>
+			<td><p>{{stat.linesRemoved}}</p></td>
+		</tr>
+	</table>
+</div>

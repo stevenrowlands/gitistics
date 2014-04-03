@@ -26,6 +26,7 @@ public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 	private Repository repository;
 	
 	public TreeWalkVisitorRoot(Repository repository, FileChangeCallback... fileChangeCallbacks) {
+		super(fileChangeCallbacks);
 		this.repository = repository;
 		this.reader = repository.newObjectReader();
 	}
