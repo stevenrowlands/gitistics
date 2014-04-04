@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface StatisticsProvider {
 
-	public List<Statistic> byYear(StatisticFilter filter);
+	public List<Statistic> statistics(StatisticParam filter);
 }

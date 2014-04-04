@@ -29,6 +29,7 @@ public class DataGenerator {
 	public void generate(String author, DateTime current, ReadablePeriod increment, int repeat, int lines) {
 		for (int i = 0; i < repeat; i++) {
 			Repo r = new Repo("/some/dir/.git");
+			r.setName("repo1");
 			repoRepository.save(r);
 			
 			Commit c = new Commit(r, UUID.randomUUID().toString().replaceAll("-", ""));
@@ -41,8 +42,14 @@ public class DataGenerator {
 			cf.setCommit(c);
 			cf.setFileName("ABC");
 			cf.setLinesAdded(lines);
+			commitFileRepository.save(cf);
+			
+			cf = new CommitFile(c);
+			cf.setCommit(c);
+			cf.setFileName("DEF");
 			cf.setLinesRemoved(lines);
 			commitFileRepository.save(cf);
+			
 			current = current.plus(increment);
 		}
 	}

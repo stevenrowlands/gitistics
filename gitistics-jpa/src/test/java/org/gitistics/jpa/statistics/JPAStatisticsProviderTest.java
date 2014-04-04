@@ -9,7 +9,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.gitistics.statistic.Statistic;
-import org.gitistics.statistic.StatisticFilter;
+import org.gitistics.statistic.StatisticParam;
+import org.gitistics.statistic.StatisticGroup;
 import org.joda.time.DateTime;
 import org.joda.time.Months;
 import org.joda.time.Years;
@@ -30,12 +31,45 @@ public class JPAStatisticsProviderTest  {
 	@Inject
 	private JPAStatisticsProvider statisticsProvider;
 	
+	
+	@Test
+	@Transactional
+	@Rollback
+	public void testNoParameters() {
+		generator.generate("person1", new DateTime(2013, 1, 1, 0, 0), Months.ONE, 24, 10);
+		StatisticParam filter = new StatisticParam();
+		List<Statistic> statistics = statisticsProvider.statistics(filter);
+		assertThat(statistics.size(), equalTo(1));
+		assertThat(statistics.get(0).getLinesAdded(), equalTo(240L));
+		assertThat(statistics.get(0).getLinesRemoved(), equalTo(240L));
+		assertThat(statistics.get(0).getCommits(), equalTo(24L));
+	}
+	
+	
+	@Test
+	@Transactional
+	@Rollback
+	public void testAuthor() {
+		generator.generate("person1", new DateTime(2013, 1, 1, 0, 0), Months.ONE, 12, 10);
+		generator.generate("person2", new DateTime(2013, 1, 1, 0, 0), Months.ONE, 24, 10);
+		StatisticParam filter = new StatisticParam();
+		filter.setAuthorName("person1");
+		List<Statistic> statistics = statisticsProvider.statistics(filter);
+		assertThat(statistics.size(), equalTo(1));
+		assertThat(statistics.get(0).getLinesAdded(), equalTo(120L));
+		assertThat(statistics.get(0).getLinesRemoved(), equalTo(120L));
+		assertThat(statistics.get(0).getCommits(), equalTo(12L));
+	}
+	
+	
 	@Test
 	@Transactional
 	@Rollback
 	public void testSingleYear() {
 		generator.generate("person1", new DateTime(2013, 1, 1, 0, 0), Months.ONE, 12, 10);
-		List<Statistic> statistics = statisticsProvider.byYear(new StatisticFilter());
+		StatisticParam filter = new StatisticParam();
+		filter.addGroup(StatisticGroup.YEAR);
+		List<Statistic> statistics = statisticsProvider.statistics(filter);
 		assertThat(statistics.size(), equalTo(1));
 		assertThat(statistics.get(0).getLinesAdded(), equalTo(120L));
 		assertThat(statistics.get(0).getLinesRemoved(), equalTo(120L));
@@ -47,7 +81,9 @@ public class JPAStatisticsProviderTest  {
 	@Rollback
 	public void testMultipleYear() {
 		generator.generate("person1", new DateTime(2013, 1, 1, 0, 0), Years.ONE, 2, 10);
-		List<Statistic> statistics = statisticsProvider.byYear(new StatisticFilter());
+		StatisticParam filter = new StatisticParam();
+		filter.addGroup(StatisticGroup.YEAR);
+		List<Statistic> statistics = statisticsProvider.statistics(filter);
 		assertThat(statistics.size(), equalTo(2));
 		assertThat(statistics.get(0).getLinesAdded() + statistics.get(1).getLinesAdded(), equalTo(20L));
 		assertThat(statistics.get(0).getLinesRemoved() + statistics.get(1).getLinesRemoved(), equalTo(20L));
@@ -59,14 +95,15 @@ public class JPAStatisticsProviderTest  {
 	@Rollback
 	public void testPaging() {
 		generator.generate("person1", new DateTime(2000, 1, 1, 0, 0), Years.ONE, 10, 10);
-		StatisticFilter filter = new StatisticFilter();
+		StatisticParam filter = new StatisticParam();
+		filter.addGroup(StatisticGroup.YEAR);
 		filter.setPage(0);
 		filter.setPageSize(2);
-		List<Statistic> statistics = statisticsProvider.byYear(filter);
+		List<Statistic> statistics = statisticsProvider.statistics(filter);
 		assertThat(statistics.size(), equalTo(2));
 		assertThat(statistics.get(0).getYear(), equalTo(2000));
 		filter.setPage(1);
-		statistics = statisticsProvider.byYear(filter);
+		statistics = statisticsProvider.statistics(filter);
 		assertThat(statistics.size(), equalTo(2));
 		assertThat(statistics.get(0).getYear(), equalTo(2002));
 	}
@@ -78,18 +115,19 @@ public class JPAStatisticsProviderTest  {
 		DateTime start = new DateTime(2000, 1, 1, 0, 0);
 		generator.generate("person1", start, Years.ONE, 10, 10);
 		
-		StatisticFilter filter = new StatisticFilter();
+		StatisticParam filter = new StatisticParam();
+		filter.addGroup(StatisticGroup.YEAR);
 		filter.setDateFrom(new Date(start.plusYears(1).getMillis()));
-		List<Statistic> statistics = statisticsProvider.byYear(filter);
+		List<Statistic> statistics = statisticsProvider.statistics(filter);
 		assertThat(statistics.size(), equalTo(9));
 		assertThat(statistics.get(0).getYear(), equalTo(2001));
 		
 		filter.setDateTo(new Date(new DateTime(2002,1,1,0,0).getMillis()));
-		statistics = statisticsProvider.byYear(filter);
+		statistics = statisticsProvider.statistics(filter);
 		assertThat(statistics.size(), equalTo(2));
 		
 		filter.setDateFrom(null);
-		statistics = statisticsProvider.byYear(filter);
+		statistics = statisticsProvider.statistics(filter);
 		assertThat(statistics.size(), equalTo(3));
 		assertThat(statistics.get(0).getYear(), equalTo(2000));
 		assertThat(statistics.get(2).getYear(), equalTo(2002));
