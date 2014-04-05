@@ -40,7 +40,10 @@ public class JPAFileChangeCallback implements FileChangeCallback {
 		commit.setCommitDate(date);
 		commit.setMessage(rc.getFullMessage());
 		commit.setFiles(getFiles(commit, changes));
-		
+		for (CommitFile cf : commit.getFiles()) {
+			commit.setLinesAdded(commit.getLinesAdded() + cf.getLinesAdded());
+			commit.setLinesRemoved(commit.getLinesRemoved() + cf.getLinesRemoved());
+		}
 		commitRepository.save(commit);
 	}
 	

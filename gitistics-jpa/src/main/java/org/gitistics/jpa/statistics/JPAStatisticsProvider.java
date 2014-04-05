@@ -2,7 +2,6 @@ package org.gitistics.jpa.statistics;
 
 
 import static org.gitistics.jpa.entities.QCommit.commit;
-import static org.gitistics.jpa.entities.QCommitFile.commitFile;
 import static org.gitistics.jpa.entities.QRepo.repo;
 
 import java.util.ArrayList;
@@ -31,8 +30,7 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 
 	public List<Statistic> statistics(StatisticParam filter) {
 		JPAQuery query = new JPAQuery(em)
-				.from(commitFile)
-				.innerJoin(commitFile.commit, commit)
+				.from(commit)
 				.innerJoin(commit.repo, repo)
 				.where(commit.valid.eq(true))
 				.limit(filter.getPageSize()).offset(filter.getPage() * filter.getPageSize());
@@ -56,8 +54,8 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 		List<Expression<?>> select = new ArrayList<Expression<?>>();
 		select.addAll(query.getMetadata().getGroupBy());
 		select.add(commit.countDistinct());
-		select.add(commitFile.linesAdded.sum());
-		select.add(commitFile.linesRemoved.sum());
+		select.add(commit.linesAdded.sum());
+		select.add(commit.linesRemoved.sum());
 		
 		List<Tuple> results = query.list(select.toArray(new Expression [select.size()]));
 
@@ -65,8 +63,8 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 		for (Tuple t : results) {
 			Statistic s = new Statistic();
 			s.setRepository(t.get(repo.name));
-			s.setLinesAdded(t.get(commitFile.linesAdded.sum()));
-			s.setLinesRemoved(t.get(commitFile.linesRemoved.sum()));
+			s.setLinesAdded(t.get(commit.linesAdded.sum()));
+			s.setLinesRemoved(t.get(commit.linesRemoved.sum()));
 			s.setCommits(t.get(commit.countDistinct()));
 			if (select.contains(commit.commitDate.year())) {
 				s.setYear(t.get(commit.commitDate.year()));

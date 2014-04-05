@@ -54,9 +54,8 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 					if (change == null) {
 						change = new FileChange();
 						change.setPath(path);
-						changes.addChange(path, change);
+						changes.addChange(change);
 					}
-					change.setCommit(commit);
 					FileEdits edits = getEdits(formatter, commit, e);
 					edits.setParent(parent);
 					change.addEdit(edits);

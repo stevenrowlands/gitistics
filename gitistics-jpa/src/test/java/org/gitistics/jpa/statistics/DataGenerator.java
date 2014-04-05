@@ -36,6 +36,8 @@ public class DataGenerator {
 			c.setCommitDate(new Date(current.getMillis()));
 			c.setRepo(r);
 			c.setAuthorName(author);
+			c.setLinesAdded(lines);
+			c.setLinesRemoved(lines);
 			commitRepository.save(c);
 			
 			CommitFile cf = new CommitFile(c);

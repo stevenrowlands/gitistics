@@ -46,8 +46,7 @@ public class TreeWalkVisitorRoot extends AbstractCommitVisitor {
 				file.setPath(walk.getPathString());
 				fileEdits.setChangeType(ChangeType.ADD);
 				fileEdits.setEdits(edits);
-				file.setCommit(commit);
-				changes.addChange(file.getPath(), file);	
+				changes.addChange(file);	
 			}
 			callback(changes);
 		} catch (Exception e) {

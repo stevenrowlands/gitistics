@@ -30,6 +30,10 @@ public class Commit {
 	private Date commitDate;
 
 	private int parentCount;
+	
+	private long linesAdded;
+	
+	private long linesRemoved;
 
 	private boolean valid = true;
 
@@ -142,4 +146,21 @@ public class Commit {
 	public void setAuthorEmail(String authorEmail) {
 		this.authorEmail = authorEmail;
 	}
+
+	public long getLinesAdded() {
+		return linesAdded;
+	}
+
+	public void setLinesAdded(long linesAdded) {
+		this.linesAdded = linesAdded;
+	}
+
+	public long getLinesRemoved() {
+		return linesRemoved;
+	}
+
+	public void setLinesRemoved(long linesRemoved) {
+		this.linesRemoved = linesRemoved;
+	}
+
 }
