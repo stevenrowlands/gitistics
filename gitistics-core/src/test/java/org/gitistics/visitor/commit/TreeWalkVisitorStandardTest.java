@@ -9,7 +9,7 @@ import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.CommitUtils;
-import org.gitistics.AbstractGitTest;
+import org.gitistics.test.AbstractGitTest;
 import org.gitistics.visitor.commit.filechange.FileChangeCallback;
 import org.gitistics.visitor.commit.filechange.FileEdits;
 import org.gitistics.visitor.commit.filechange.SimpleFileChangeCallback;

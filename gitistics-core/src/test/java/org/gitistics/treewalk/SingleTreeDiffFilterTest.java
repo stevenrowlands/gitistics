@@ -8,7 +8,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.gitective.core.CommitUtils;
 import org.gitective.core.TreeUtils;
-import org.gitistics.AbstractGitTest;
+import org.gitistics.test.AbstractGitTest;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 

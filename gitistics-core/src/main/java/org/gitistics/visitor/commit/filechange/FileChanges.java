@@ -33,8 +33,8 @@ public class FileChanges {
 		return getChanges().get(index);
 	}
 
-	public void addChange(String id, FileChange change) {
-		changes.put(id, change);
+	public void addChange(FileChange change) {
+		changes.put(change.getPath(), change);
 	}
 
 	public RevCommit getCommit() {

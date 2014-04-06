@@ -5,7 +5,7 @@ import static org.mockito.Mockito.verify;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.gitistics.AbstractGitTest;
+import org.gitistics.test.AbstractGitTest;
 import org.gitistics.visitor.commit.CommitVisitor;
 import org.junit.Test;
 

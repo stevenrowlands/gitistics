@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.gitistics.AbstractGitTest;
+import org.gitistics.test.AbstractGitTest;
 import org.gitistics.visitor.commit.treewalk.TreeWalkVisitor;
 import org.hamcrest.Matchers;
 import org.junit.Test;

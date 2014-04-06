@@ -68,6 +68,8 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 			s.setCommits(t.get(commit.countDistinct()));
 			if (select.contains(commit.commitDate.year())) {
 				s.setYear(t.get(commit.commitDate.year()));
+			}if (select.contains(commit.commitDate.month())) {
+				s.setMonth(t.get(commit.commitDate.month()));
 			}
 			statistics.add(s);
 		}
@@ -79,6 +81,9 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 			switch(group) {
 				case YEAR:
 					query.groupBy(commit.commitDate.year());
+					break;
+				case MONTH:
+					query.groupBy(commit.commitDate.month());
 					break;
 				case REPOSITORY_NAME:
 					query.groupBy(repo.name);
@@ -93,6 +98,9 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 			switch(orderBy.getOrder()) {
 				case YEAR:
 					e = commit.commitDate.year();
+					break;
+				case MONTH:
+					e = commit.commitDate.month();
 					break;
 				case REPOSITORY_NAME:
 					e = repo.name;

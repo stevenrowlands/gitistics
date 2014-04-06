@@ -1,9 +1,6 @@
-package org.gitistics;
+package org.gitistics.test;
 
 import org.eclipse.jgit.lib.Repository;
-import org.gitistics.test.RepositoryBuilder;
-import org.gitistics.test.RepositoryBuilderImpl;
-import org.gitistics.test.RepositoryWorker;
 import org.junit.After;
 import org.junit.Before;
 

@@ -9,9 +9,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.gitistics.statistic.Statistic;
-import org.gitistics.statistic.StatisticParam;
 import org.gitistics.statistic.StatisticGroup;
+import org.gitistics.statistic.StatisticOrder;
+import org.gitistics.statistic.StatisticOrderBy;
+import org.gitistics.statistic.StatisticParam;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.Months;
 import org.joda.time.Years;
 import org.junit.Test;
@@ -45,6 +48,25 @@ public class JPAStatisticsProviderTest  {
 		assertThat(statistics.get(0).getCommits(), equalTo(24L));
 	}
 	
+	
+
+	@Test
+	@Transactional
+	@Rollback
+	public void testByMonth() {
+		generator.generate("person1", new DateTime(2013, 1, 1, 0, 0), Days.ONE, 50, 10);
+		StatisticParam filter = new StatisticParam();
+		filter.addGroup(StatisticGroup.YEAR);
+		filter.addGroup(StatisticGroup.MONTH);
+		filter.addOrder(new StatisticOrderBy(StatisticOrder.MONTH));;
+		List<Statistic> statistics = statisticsProvider.statistics(filter);
+		assertThat(statistics.size(), equalTo(2));
+		assertThat(statistics.get(0).getLinesAdded(), equalTo(310L));
+		assertThat(statistics.get(0).getLinesRemoved(), equalTo(310L));
+		assertThat(statistics.get(0).getCommits(), equalTo(31L));
+		assertThat(statistics.get(0).getMonth(), equalTo(1));
+		assertThat(statistics.get(0).getYear(), equalTo(2013));
+	}
 	
 	@Test
 	@Transactional
@@ -96,6 +118,7 @@ public class JPAStatisticsProviderTest  {
 	public void testPaging() {
 		generator.generate("person1", new DateTime(2000, 1, 1, 0, 0), Years.ONE, 10, 10);
 		StatisticParam filter = new StatisticParam();
+		filter.addOrder(new StatisticOrderBy(StatisticOrder.YEAR));
 		filter.addGroup(StatisticGroup.YEAR);
 		filter.setPage(0);
 		filter.setPageSize(2);
@@ -117,6 +140,7 @@ public class JPAStatisticsProviderTest  {
 		
 		StatisticParam filter = new StatisticParam();
 		filter.addGroup(StatisticGroup.YEAR);
+		filter.addOrder(new StatisticOrderBy(StatisticOrder.YEAR));
 		filter.setDateFrom(new Date(start.plusYears(1).getMillis()));
 		List<Statistic> statistics = statisticsProvider.statistics(filter);
 		assertThat(statistics.size(), equalTo(9));

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.gitistics.AbstractGitTest;
+import org.gitistics.test.AbstractGitTest;
 import org.gitistics.visitor.commit.filechange.FileChangeCallback;
 import org.gitistics.visitor.commit.filechange.SimpleFileChangeCallback;
 import org.junit.Test;

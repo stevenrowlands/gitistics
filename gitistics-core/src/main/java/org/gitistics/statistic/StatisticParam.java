@@ -92,4 +92,9 @@ public class StatisticParam {
 	public void setOrders(List<StatisticOrderBy> orders) {
 		this.orders = orders;
 	}
+	
+	public void addOrder(StatisticOrderBy order) {
+		this.orders.add(order);
+	}
+	
 }
