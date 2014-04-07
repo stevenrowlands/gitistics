@@ -32,8 +32,12 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 		JPAQuery query = new JPAQuery(em)
 				.from(commit)
 				.innerJoin(commit.repo, repo)
-				.where(commit.valid.eq(true))
-				.limit(filter.getPageSize()).offset(filter.getPage() * filter.getPageSize());
+				.where(commit.valid.eq(true));
+		
+		if (filter.getPageSize() > 0) {
+			query.limit(filter.getPageSize());
+			query.offset(filter.getPage() * filter.getPageSize());
+		}
 		
 		addGroupBy(query, filter);
 		addOrderBy(query, filter);
@@ -66,9 +70,11 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 			s.setLinesAdded(t.get(commit.linesAdded.sum()));
 			s.setLinesRemoved(t.get(commit.linesRemoved.sum()));
 			s.setCommits(t.get(commit.countDistinct()));
+			s.setAuthor(t.get(commit.authorName));
 			if (select.contains(commit.commitDate.year())) {
 				s.setYear(t.get(commit.commitDate.year()));
-			}if (select.contains(commit.commitDate.month())) {
+			}
+			if (select.contains(commit.commitDate.month())) {
 				s.setMonth(t.get(commit.commitDate.month()));
 			}
 			statistics.add(s);
@@ -85,7 +91,10 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 				case MONTH:
 					query.groupBy(commit.commitDate.month());
 					break;
-				case REPOSITORY_NAME:
+				case AUTHOR:
+					query.groupBy(commit.authorName);
+					break;
+				case REPOSITORY:
 					query.groupBy(repo.name);
 					break;
 			}
@@ -102,7 +111,13 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 				case MONTH:
 					e = commit.commitDate.month();
 					break;
-				case REPOSITORY_NAME:
+				case AUTHOR:
+					e = commit.authorName;
+					break;
+				case COMMITS:
+					e = commit.countDistinct();
+					break;
+				case REPOSITORY:
 					e = repo.name;
 					break;
 			}

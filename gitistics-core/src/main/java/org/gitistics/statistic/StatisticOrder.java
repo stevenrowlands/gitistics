@@ -1,5 +1,5 @@
 package org.gitistics.statistic;
 
 public enum StatisticOrder {
-	YEAR, MONTH, REPOSITORY_NAME
+	YEAR, MONTH, REPOSITORY, AUTHOR, COMMITS
 }

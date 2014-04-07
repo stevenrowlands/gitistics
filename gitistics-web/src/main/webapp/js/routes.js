@@ -12,6 +12,15 @@ gitistics.config([ '$routeProvider', function($routeProvider) {
 	}).when('/repository/:repositoryName/byMonth', {
 		templateUrl : 'pages/byMonth.html',
 		controller : 'ByMonthController'
+	}).when('/repository/:repositoryName/authors', {
+		templateUrl : 'pages/authors.html',
+		controller : 'AuthorsController'
+	}).when('/repository/:repositoryName/authorsByMonth', {
+		templateUrl : 'pages/authorsByMonth.html',
+		controller : 'AuthorsByMonthController'
+	}).when('/repository/:repositoryName/authorsByYear', {
+		templateUrl : 'pages/authorsByYear.html',
+		controller : 'AuthorsByYearController'
 	}).otherwise({
 		redirectTo : '/repositories'
 	});
