@@ -9,6 +9,7 @@ gitistics.controller('ByYearController', function($scope, $modal, $routeParams, 
 	    groups : ["YEAR"], 
 	    orders : [ {order : "YEAR", direction : "DESC"}] 
     }
+	$scope.repository = $routeParams.repositoryName;
 	
 	$http.post('rest/statistics/statistics', params).success(
 			function(data) {

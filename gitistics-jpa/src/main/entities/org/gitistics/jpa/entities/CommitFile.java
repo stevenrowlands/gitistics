@@ -17,6 +17,8 @@ public class CommitFile extends AbstractPersistable<Integer> {
 	private Commit commit;
 
 	private String fileName;
+	
+	private String fileType;
 
 	private long linesAdded;
 
@@ -62,4 +64,11 @@ public class CommitFile extends AbstractPersistable<Integer> {
 		this.fileName = fileName;
 	}
 
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
 }

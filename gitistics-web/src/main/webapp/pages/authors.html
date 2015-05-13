@@ -1,17 +1,25 @@
-<div class="col-sm-12 col-md-12 main">
-	<h2 class="sub-header">Authors</h2>
-	<table class="table table-hover table-striped table-condensed">
-		<tr>
-			<td><a href="" ng-click="predicate = 'author'; reverse=false">Author</a></td>
-			<td><a href="" ng-click="predicate = 'commits'; reverse=true">Commits</a></td> 
-            <td><a href="" ng-click="predicate = 'linesAdded'; reverse=true">Lines Added</a></td> 
-            <td><a href="" ng-click="predicate = 'linesRemoved'; reverse=true">Lines Removed</a></td> 
-		</tr>
-		<tr ng-repeat="stat in statistics | orderBy:predicate:reverse">
-			<td><p>{{stat.author}}</p></td>
-			<td><p>{{stat.commits}}</p></td>
-            <td><p>{{stat.linesAdded}}</p></td>
-            <td><p>{{stat.linesRemoved}}</p></td>
-		</tr>
-	</table>
+<div ng-include="'pages/repositoryMenu.html'" />
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 col-md-12 main">
+			<h2 class="sub-header">Authors</h2>
+			<table class="table table-hover table-striped table-condensed">
+				<tr>
+					<td><a href="" ng-click="predicate = 'author'; reverse=false">Author</a></td>
+					<td><a href="" ng-click="predicate = 'authorEmail'; reverse=false">Email</a></td>
+					<td><a href="" ng-click="predicate = 'commits'; reverse=true">Commits</a></td>
+					<td><a href="" ng-click="predicate = 'linesAdded'; reverse=true">Lines Added</a></td>
+					<td><a href="" ng-click="predicate = 'linesRemoved'; reverse=true">Lines Removed</a></td>
+				</tr>
+				<tr ng-repeat="stat in statistics | orderBy:predicate:reverse">
+					<td><p>{{stat.author}}</p></td>
+					<td><p>{{stat.authorEmail}}</p></td>
+					<td><p>{{stat.commits}}</p></td>
+					<td><p>{{stat.linesAdded}}</p></td>
+					<td><p>{{stat.linesRemoved}}</p></td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </div>

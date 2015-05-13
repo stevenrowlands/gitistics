@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JPAFileChangeCallback implements FileChangeCallback {
-
+	
 	@Autowired
 	private CommitRepository commitRepository;
 
@@ -58,8 +58,20 @@ public class JPAFileChangeCallback implements FileChangeCallback {
 			
 			String fileName = change.getPath();
 			file.setFileName(fileName);
+			file.setFileType(getType(fileName));
 			files.add(file);
 		}
 		return files;
+	}
+	
+	private String getType(String name) {
+		if (name.contains(".")) {
+			String type = name.substring(name.lastIndexOf(".") + 1);
+			if (type.contains("/") || type.contains("\\") || type.contains("#")) {
+				return "";
+			}
+			return type;
+		}
+		return "";
 	}
 }

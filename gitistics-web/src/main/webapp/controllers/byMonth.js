@@ -10,6 +10,8 @@ gitistics.controller('ByMonthController', function($scope, $modal, $routeParams,
 	    orders : [ {order : "YEAR", direction : "DESC"}, {order : "MONTH", direction : "DESC"}] 
     }
 	
+	$scope.repository = $routeParams.repositoryName;
+	
 	$http.post('rest/statistics/statistics', params).success(
 			function(data) {
 				$scope.statistics = data;

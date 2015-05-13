@@ -3,13 +3,13 @@
 var gitistics = angular.module('gitistics');
 
 
-gitistics.controller('AuthorsController', function($scope, $modal, $routeParams, $http) {
+gitistics.controller('AwardAuthorController', function($scope, $modal, $routeParams, $http) {
 	
 	var params = { 
 		repositoryName : $routeParams.repositoryName,
-		groups : ["AUTHOR"],
-		orders : [{order: "COMMITS", direction: "DESC"}],
-		pageSize: -1
+	    groups : ["YEAR", "FILE_TYPE", "AUTHOR"],
+	    orders : [{order: "YEAR", direction: "DESC"}, {order: "FILE_TYPE", direction: "ASC"} , {order: "COMMITS", direction: "DESC"}],
+	 	pageSize : -1
     }
 	
 	$scope.repository = $routeParams.repositoryName;

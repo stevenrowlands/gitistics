@@ -1,0 +1,59 @@
+<!-- Static navbar -->
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Statistics <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#/repository/{{repository}}/summary">All</a></li>
+						<li><a href="#/repository/{{repository}}/byYear">By Year</a></li>
+						<li><a href="#/repository/{{repository}}/byMonth">By Month</a></li>
+					</ul></li>
+			</ul>
+			<ul class="nav navbar-nav">
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Author <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#/repository/{{repository}}/authors">All</a></li>
+						<li><a href="#/repository/{{repository}}/authorsByYear">By Year</a></li>
+						<li><a href="#/repository/{{repository}}/authorsByMonth">By Month</a></li>
+					</ul></li>
+			</ul>
+			<ul class="nav navbar-nav">
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> File Type <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#/repository/{{repository}}/fileType">All</a></li>
+						<li><a href="#/repository/{{repository}}/fileTypeByYear">By Year</a></li>
+					</ul></li>
+			</ul>
+			<ul class="nav navbar-nav">
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Awards <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#/repository/{{repository}}/awardReverter">Reverter</a></li>
+						<li><a href="#/repository/{{repository}}/awardTester">Tester</a></li>
+						<li><a href="#/repository/{{repository}}/awardJanitor">Janitor</a></li>
+						<li><a href="#/repository/{{repository}}/awardAuthor">Author</a></li>
+					</ul></li>
+			</ul>
+			<ul class="nav navbar-nav">
+				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Team <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="#/repository/{{repository}}/teamTester">Tester</a></li>
+					</ul></li>
+			</ul>
+			<ul class="nav navbar-nav">
+				<li><a href="#/repository/{{repository}}/outliers">Outliers</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+				<li><a href="#">Repositories</a></li>
+				</li>
+			</ul>
+		</div>
+		<!--/.nav-collapse -->
+	</div>
+</div>

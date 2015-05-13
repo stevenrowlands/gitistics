@@ -9,6 +9,9 @@ gitistics.config([ '$routeProvider', function($routeProvider) {
 	}).when('/repository/:repositoryName/byYear', {
 		templateUrl : 'pages/byYear.html',
 		controller : 'ByYearController'
+	}).when('/repository/:repositoryName/summary', {
+		templateUrl : 'pages/summary.html',
+		controller : 'SummaryController'
 	}).when('/repository/:repositoryName/byMonth', {
 		templateUrl : 'pages/byMonth.html',
 		controller : 'ByMonthController'
@@ -24,6 +27,27 @@ gitistics.config([ '$routeProvider', function($routeProvider) {
 	}).when('/repository/:repositoryName/authorsByYear', {
 		templateUrl : 'pages/authorsByYear.html',
 		controller : 'AuthorsByYearController'
+	}).when('/repository/:repositoryName/fileType', {
+		templateUrl : 'pages/fileType.html',
+		controller : 'FileTypeController'
+	}).when('/repository/:repositoryName/fileTypeByYear', {
+		templateUrl : 'pages/fileTypeByYear.html',
+		controller : 'FileTypeByYearController'
+	}).when('/repository/:repositoryName/awardReverter', {
+		templateUrl : 'pages/awardReverter.html',
+		controller : 'AwardReverterController'
+	}).when('/repository/:repositoryName/awardTester', {
+		templateUrl : 'pages/awardTester.html',
+		controller : 'AwardTesterController'
+	}).when('/repository/:repositoryName/awardJanitor', {
+		templateUrl : 'pages/awardJanitor.html',
+		controller : 'AwardJanitorController'
+	}).when('/repository/:repositoryName/awardAuthor', {
+		templateUrl : 'pages/awardAuthor.html',
+		controller : 'AwardAuthorController'
+	}).when('/repository/:repositoryName/teamTester', {
+		templateUrl : 'pages/teamTester.html',
+		controller : 'TeamTesterController'
 	}).otherwise({
 		redirectTo : '/repositories'
 	});

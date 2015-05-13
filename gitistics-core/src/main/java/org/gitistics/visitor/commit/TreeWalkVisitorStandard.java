@@ -36,7 +36,7 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 	public void visit(RevCommit commit) {
 		if (commit.getParentCount() == 0)
 			return;
-
+		
 		DiffFormatter formatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
 		formatter.setRepository(repository);
 		formatter.setDiffComparator(RawTextComparator.DEFAULT);
@@ -115,6 +115,8 @@ public class TreeWalkVisitorStandard extends AbstractCommitVisitor {
 			return h.toEditList();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		} finally {
+			formatter.release();
 		}
 	}
 

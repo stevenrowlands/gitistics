@@ -3,7 +3,6 @@ package org.gitistics.repository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileRepository;
 import org.gitistics.jpa.entities.Repo;
 import org.gitistics.revwalk.RevWalkUtils;
 import org.gitistics.visitor.commit.CommitVisitor;
@@ -37,7 +36,7 @@ public class SimpleRepositoryProcessor implements RepositoryProcessor{
 	}
 		
 	private void doProcess(Repo repo) throws Exception {
-		Repository repository = new FileRepository(repo.getLocation());
+		Repository repository = new org.eclipse.jgit.internal.storage.file.FileRepository(repo.getLocation());
 		DateTime start = new DateTime();
 		RevWalk walk = RevWalkUtils.newRevWalk(repository);
 		CommitVisitor visitor = new TreeWalkVisitorImpl(repository, fileChangeCallbacks);

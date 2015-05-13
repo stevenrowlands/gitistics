@@ -3,13 +3,14 @@
 var gitistics = angular.module('gitistics');
 
 
-gitistics.controller('AuthorsController', function($scope, $modal, $routeParams, $http) {
+gitistics.controller('AwardReverterController', function($scope, $modal, $routeParams, $http) {
 	
 	var params = { 
 		repositoryName : $routeParams.repositoryName,
-		groups : ["AUTHOR"],
-		orders : [{order: "COMMITS", direction: "DESC"}],
-		pageSize: -1
+	    groups : ["YEAR", "AUTHOR"],
+	    message : "revert",
+	    orders : [{order: "YEAR", direction: "DESC"}, {order: "COMMITS", direction: "DESC"}],
+	 	pageSize : -1
     }
 	
 	$scope.repository = $routeParams.repositoryName;

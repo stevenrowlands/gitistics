@@ -21,6 +21,10 @@ public class StatisticParam {
 	
 	private String repositoryName;
 	
+	private String message;
+	
+	private String fileName;
+	
 	private List<StatisticGroup> groups = new ArrayList<StatisticGroup>();
 	
 	private List<StatisticOrderBy> orders = new ArrayList<StatisticOrderBy>();
@@ -96,5 +100,21 @@ public class StatisticParam {
 	public void addOrder(StatisticOrderBy order) {
 		this.orders.add(order);
 	}
-	
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 }

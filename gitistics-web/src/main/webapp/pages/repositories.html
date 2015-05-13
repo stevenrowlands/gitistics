@@ -1,22 +1,43 @@
-<div class="col-sm-12 col-md-12 main">
-    <h2 class="sub-header">Repositories</h2>
-    <table class="table table-hover table-striped table-condensed">
-        <tr>
-            <td style="width: 2px;"></td>
-            <td><b>Name</b></td>
-            <td><b>Location</b></td>
-        </tr>
-        <tr ng-repeat="repository in repositories">
-            <td>
-                <button type="button" class="btn btn-danger btn-xs" ng-click="deleteRepository(repository)">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </button>
-            </td>
-            <td>
-                <a href="#repository/{{repository.name}}/byYear">{{repository.name}}</a>
-            </td>
-            <td><p>{{repository.location}}</p></td>
-        </tr>
-    </table>
-    <button class="btn btn-primary" ng-click="addRepository()">Add Repository</button>
+
+<!-- Static navbar -->
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+				<li><a href="#">Repositories</a></li>
+				</li>
+			</ul>
+		</div>
+		<!--/.nav-collapse -->
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 col-md-12 main">
+			<h2 class="sub-header">Repositories</h2>
+			<table class="table table-hover table-striped table-condensed">
+				<tr>
+					<td style="width: 2px;"></td>
+					<td><b>Name</b></td>
+					<td><b>Location</b></td>
+				</tr>
+				<tr ng-repeat="repository in repositories">
+					<td>
+						<button type="button" class="btn btn-danger btn-xs" ng-click="deleteRepository(repository)">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</td>
+					<td><a href="#/repository/{{repository.name}}/summary">{{repository.name}}</a></td>
+					<td><p>{{repository.location}}</p></td>
+				</tr>
+			</table>
+			<button class="btn btn-primary" ng-click="addRepository()">Add Repository</button>
+		</div>
+	</div>
 </div>

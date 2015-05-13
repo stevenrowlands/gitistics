@@ -11,6 +11,8 @@ gitistics.controller('AuthorsByMonthController', function($scope, $modal, $route
 		orders : [{order: "YEAR", direction: "DESC"}, {order: "MONTH", direction: "DESC"}, {order: "COMMITS", direction: "DESC"}],
 		pageSize : -1
 	}
+	
+	$scope.repository = $routeParams.repositoryName;
 		
 	$http.post('rest/statistics/statistics', params).success(
 		function(data) {

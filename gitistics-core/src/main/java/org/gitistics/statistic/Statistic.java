@@ -9,6 +9,8 @@ public class Statistic {
 	String repository;
 	
 	String author;
+
+	String authorEmail;
 	
 	int year;
 	
@@ -16,9 +18,15 @@ public class Statistic {
 	
 	long commits;
 	
+	long filesChanged;
+	
 	long linesAdded;
 	
 	long linesRemoved;
+	
+	String fileName;
+	
+	String fileType;
 
 	public String getRepository() {
 		return repository;
@@ -74,5 +82,37 @@ public class Statistic {
 
 	public void setLinesRemoved(long linesRemoved) {
 		this.linesRemoved = linesRemoved;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+
+	public String getAuthorEmail() {
+		return authorEmail;
+	}
+
+	public void setAuthorEmail(String authorEmail) {
+		this.authorEmail = authorEmail;
+	}
+
+	public long getFilesChanged() {
+		return filesChanged;
+	}
+
+	public void setFilesChanged(long filesChanged) {
+		this.filesChanged = filesChanged;
 	}
 }

@@ -17,32 +17,8 @@
    
 </head>
 <body>
-
-        <!-- Static navbar -->
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-	<div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <li><a href="#">Repositories</a></li>
-            </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-    <div class="container">
-    	<div class="row">
-		<div ng-view>
-		</div> 
-	</div>
+	<div ng-view>
+	</div> 
 </div>
 
     <script type='text/javascript' src='bower/jquery/dist/jquery.min.js'></script>
@@ -59,7 +35,15 @@
     <script src="controllers/authors.js"></script>
     <script src="controllers/authorsByMonth.js"></script>
     <script src="controllers/authorsByYear.js"></script>
+    <script src="controllers/fileType.js"></script>
+    <script src="controllers/fileTypeByYear.js"></script>
+    <script src="controllers/awardReverter.js"></script>
+    <script src="controllers/awardTester.js"></script>
+    <script src="controllers/awardJanitor.js"></script>
+    <script src="controllers/awardAuthor.js"></script>
     <script src="controllers/repositories.js"></script>
+    <script src="controllers/teamTester.js"></script>
+    <script src="controllers/summary.js"></script>
     <script src="controllers/outliers.js"></script>
 	
 </body>

@@ -1,6 +1,6 @@
 package org.gitistics.controllers;
 
-import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.gitistics.jpa.entities.Repo;
 import org.gitistics.jpa.repository.RepoRepository;
 import org.gitistics.repository.AsynchronousRepositoryWrapper;
@@ -45,6 +45,7 @@ public class RepositoryController {
     public Repo deleteRepository(@RequestParam("location") String location) throws Exception {
 		Repo repo = repositories.findOne(location);
 		if (repo != null) {
+			
 			repositories.delete(repo); 
 		}
         return repo;

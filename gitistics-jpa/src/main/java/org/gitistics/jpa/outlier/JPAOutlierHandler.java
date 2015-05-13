@@ -17,7 +17,16 @@ import org.gitistics.outlier.OutlierHandler;
 import org.gitistics.outlier.OutlierParam;
 import org.springframework.stereotype.Component;
 
+import com.mysema.query.jpa.JPAExpressions;
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.sql.Configuration;
+import com.mysema.query.sql.PostgresTemplates;
+import com.mysema.query.sql.SQLExpressions;
+import com.mysema.query.sql.SQLQuery;
+import com.mysema.query.sql.dml.SQLUpdateBatch;
+import com.mysema.query.types.OperatorImpl;
+import com.mysema.query.types.Ops;
+import com.mysema.query.types.expr.NumberOperation;
 
 @Component
 public class JPAOutlierHandler implements OutlierHandler {
@@ -66,7 +75,7 @@ public class JPAOutlierHandler implements OutlierHandler {
 	
 	public void toggleValid(String commitId) {
 		Commit cd = commits.findOne(commitId);
-		cd.setValid(cd.isValid());
+		cd.setValid(!cd.isValid());
 		commits.save(cd);
 	}
 }

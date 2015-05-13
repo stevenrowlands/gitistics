@@ -9,7 +9,6 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.storage.file.FileRepository;
 
 public class RepositoryWorkerImpl<T> implements RepositoryWorker<T> {
 
@@ -24,7 +23,7 @@ public class RepositoryWorkerImpl<T> implements RepositoryWorker<T> {
 	public RepositoryWorkerImpl(File dir, T t) throws Exception {
 		this.dir = dir;
 		this.t = t;
-		this.repository = new FileRepository(new File(dir, ".git"));
+		this.repository = new org.eclipse.jgit.internal.storage.file.FileRepository(new File(dir, ".git"));
 		this.git = Git.wrap(repository);
 	}
 	

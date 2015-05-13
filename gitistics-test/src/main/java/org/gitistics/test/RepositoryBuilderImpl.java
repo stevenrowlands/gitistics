@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +25,7 @@ public class RepositoryBuilderImpl implements RepositoryBuilder {
 			logger.info("opening git repository at {}", dir.getAbsolutePath());
 			repositories.add(dir);
 			File file = new File(dir, ".git");
-			Repository repository = new FileRepository(file);
+			Repository repository = new org.eclipse.jgit.internal.storage.file.FileRepository(file);
 			return new RepositoryWorkerImpl<Repository>(dir, repository);
 		} catch (Exception e) {
 			throw new RuntimeException("Error creating git repository ", e);

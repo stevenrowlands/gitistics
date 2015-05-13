@@ -4,14 +4,17 @@ var gitistics = angular.module('gitistics');
 
 gitistics.controller('OutliersController', function($scope, $modal, $routeParams, $http) {
     
+	$scope.repository = $routeParams.repositoryName;
+	
 	$scope.pageNumber = 0;
+	
 	$http.get('rest/outliers/list').success(function(data) {
 		$scope.outliers = data;
 	});
 	
 	$scope.go = function(outlier) {
 		outlier.valid = !outlier.valid;
-		$http.post('rest/outliers/toggleValid', outlier).success(function(data) {
+		$http.post('rest/outliers/toggleValid', outlier.commitId).success(function(data) {
 			
 		});
 	}
