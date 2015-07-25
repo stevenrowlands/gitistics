@@ -25,6 +25,8 @@ public class StatisticParam {
 	
 	private String fileName;
 	
+	private int parentCount;
+	
 	private List<StatisticGroup> groups = new ArrayList<StatisticGroup>();
 	
 	private List<StatisticOrderBy> orders = new ArrayList<StatisticOrderBy>();
@@ -115,6 +117,14 @@ public class StatisticParam {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public int getParentCount() {
+		return parentCount;
+	}
+
+	public void setParentCount(int parentCount) {
+		this.parentCount = parentCount;
 	}
 
 }

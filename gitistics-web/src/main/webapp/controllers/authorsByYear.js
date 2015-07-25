@@ -9,6 +9,7 @@ gitistics.controller('AuthorsByYearController', function($scope, $modal, $routeP
 		repositoryName : $routeParams.repositoryName,
 	    groups : ["YEAR", "AUTHOR"],
 	    orders : [{order: "YEAR", direction: "DESC"}, {order: "COMMITS", direction: "DESC"}],
+	    parentCount: 1,
 	 	pageSize : -1
     }
 	

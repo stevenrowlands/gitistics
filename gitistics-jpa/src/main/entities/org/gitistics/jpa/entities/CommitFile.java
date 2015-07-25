@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "CommitFile")
 public class CommitFile extends AbstractPersistable<Integer> {
 
 	@ManyToOne
@@ -20,9 +19,9 @@ public class CommitFile extends AbstractPersistable<Integer> {
 	
 	private String fileType;
 
-	private long linesAdded;
+	private long linesAdded = 0;
 
-	private long linesRemoved;
+	private long linesRemoved = 0;
 
 	public CommitFile() {
 		

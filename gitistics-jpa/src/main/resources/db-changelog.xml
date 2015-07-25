@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="1" author="Steven Rowlands">
+		<createTable tableName="repo">
+			<column name="location" type="varchar(255)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="name" type="varchar(255)" />
+		</createTable>
+		<createTable tableName="commit">
+			<column name="commitid" type="varchar(40)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="authoremail" type="varchar(254)" />
+			<column name="authorname" type="varchar(255)" />
+			<column name="commitdate" type="date" />
+			<column name="committeremail" type="varchar(254)" />
+			<column name="committername" type="varchar(255)" />
+			<column name="linesremoved" type="bigint" defaultValueNumeric="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="linesadded" type="bigint" defaultValueNumeric="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="message" type="clob" />
+			<column name="parentcount" type="integer" defaultValueNumeric="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="valid" type="boolean" defaultValueBoolean="true">
+				<constraints nullable="false" />
+			</column>
+			<column name="repoid" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="commitfile">
+			<column name="id" type="integer">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="filename" type="varchar(255)" />
+			<column name="filetype" type="varchar(255)" />
+			<column name="linesremoved" type="bigint" defaultValueNumeric="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="linesadded" type="bigint" defaultValueNumeric="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="valid" type="boolean" defaultValueBoolean="true" />
+			<column name="commitid" type="varchar(40)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="repoid"
+			baseTableName="commit" constraintName="fk_commits_repo" onDelete="CASCADE"
+			onUpdate="NO ACTION" referencedColumnNames="location"
+			referencedTableName="repo" />
+		<addForeignKeyConstraint baseColumnNames="commitid"
+			baseTableName="commitfile" constraintName="fk_commitfile_commit"
+			onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="commitid"
+			referencedTableName="commit" />
+		<addAutoIncrement columnDataType="int"
+			columnName="id" incrementBy="1" startWith="1"
+			tableName="commitfile" />
+	</changeSet>
+
+</databaseChangeLog>

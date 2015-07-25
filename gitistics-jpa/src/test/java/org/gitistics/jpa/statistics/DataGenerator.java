@@ -44,11 +44,13 @@ public class DataGenerator {
 			cf.setCommit(c);
 			cf.setFileName("ABC");
 			cf.setLinesAdded(lines);
+			cf.setLinesRemoved(0);
 			commitFileRepository.save(cf);
 			
 			cf = new CommitFile(c);
 			cf.setCommit(c);
 			cf.setFileName("DEF");
+			cf.setLinesAdded(0);
 			cf.setLinesRemoved(lines);
 			commitFileRepository.save(cf);
 			

@@ -20,6 +20,7 @@ import org.gitistics.statistic.StatisticsProvider;
 import org.springframework.stereotype.Component;
 
 import com.mysema.query.Tuple;
+import com.mysema.query.jpa.impl.JPADeleteClause;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.Expression;
 import com.mysema.query.types.expr.ComparableExpressionBase;
@@ -32,12 +33,11 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 
 	@PersistenceContext
 	private EntityManager em;
-
+	
 	public List<Statistic> statistics(StatisticParam filter) {
 		JPAQuery query = new JPAQuery(em)
 				.from(commit)
 				.where(commit.valid.eq(true));
-		
 		if (includeFiles(filter)) {
 			query = query.innerJoin(commit.files, commitFile);
 		}
@@ -53,6 +53,9 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 
 		List<Expression<?>> select = new ArrayList<Expression<?>>();
 
+		if (filter.getParentCount() != 0) {
+			query.where(commit.parentCount.eq(filter.getParentCount()));
+		}
 		if (filter.getAuthorName() != null) {
 			query = query.where(commit.authorName.eq(filter.getAuthorName()));
 		}
@@ -175,7 +178,11 @@ public class JPAStatisticsProvider implements StatisticsProvider {
 					e = commit.authorName;
 					break;
 				case COMMITS:
-					e = commit.count();
+					if (includeFiles(params)) {
+						e = commit.countDistinct();
+					} else {
+						e = commit.count();
+					}
 					break;
 				case REPOSITORY:
 					e = commit.repo.name;

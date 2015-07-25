@@ -29,11 +29,11 @@ public class Commit {
 
 	private Date commitDate;
 
-	private int parentCount;
+	private int parentCount = 1;
 	
-	private long linesAdded;
+	private long linesAdded = 0;
 	
-	private long linesRemoved;
+	private long linesRemoved = 0;
 
 	private boolean valid = true;
 
@@ -43,8 +43,7 @@ public class Commit {
 
 	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "commit")
 	private List<CommitFile> files;
-
-	@Column(length = 2000)
+	
 	private String message;
 
 	public Commit() {

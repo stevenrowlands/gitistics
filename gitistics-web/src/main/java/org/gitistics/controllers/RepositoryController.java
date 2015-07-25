@@ -1,5 +1,8 @@
 package org.gitistics.controllers;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.gitistics.jpa.entities.Repo;
 import org.gitistics.jpa.repository.RepoRepository;
@@ -16,7 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/repository")
 public class RepositoryController {
- 
+
+
+	@PersistenceContext
+	private EntityManager em;
+	
 	@Autowired
 	private RepoRepository repositories;
 	
@@ -45,7 +52,7 @@ public class RepositoryController {
     public Repo deleteRepository(@RequestParam("location") String location) throws Exception {
 		Repo repo = repositories.findOne(location);
 		if (repo != null) {
-			
+			repositories.deleteCommits(repo);
 			repositories.delete(repo); 
 		}
         return repo;

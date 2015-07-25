@@ -25,12 +25,28 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommitRepositoryTest  {
 
 	private static final String COMMIT_ID = "000aaa111bbb222ccc333ccc444ddd555eee666";
+	
 	@Autowired
 	private CommitRepository commitRepository;
 	
 	@Autowired
 	private RepoRepository repoRepository;
 	
+	@Test
+	public void testDelete() {
+		Repo repo = new Repo("/some/dir/.git");
+		repoRepository.save(repo);
+		
+		Commit commit = getBasicCommit(repo);
+		CommitFile cf = new CommitFile();
+		cf.setFileName("X");
+		cf.setCommit(commit);
+		commit.setFiles(Arrays.asList(new CommitFile [] { cf } ));;
+		commitRepository.save(commit);
+		
+		repoRepository.delete("/some/dir/.git");
+		Repo r = repoRepository.findOne("/some/dir/.git");
+	}
 	@Test
 	@Transactional
 	@Rollback
