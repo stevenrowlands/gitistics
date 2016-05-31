@@ -10,6 +10,7 @@
 					<td><b>Author</b></td>
 					<td><b>Lines Added</b></td>
 					<td><b>Lines Removed</b></td>
+					<td><b>Files Changed</b></td>
 					<td><b>Commits</b></td>
 				</tr>
 				<tr ng-repeat="stat in statistics">
@@ -17,6 +18,7 @@
 					<td><p>{{stat.author}}</p></td>
 					<td><p>{{stat.linesAdded}}</p></td>
 					<td><p>{{stat.linesRemoved}}</p></td>
+					<td><p>{{stat.filesChanged}}</p></td>
 					<td><p>{{stat.commits}}</p></td>
 				</tr>
 			</table>

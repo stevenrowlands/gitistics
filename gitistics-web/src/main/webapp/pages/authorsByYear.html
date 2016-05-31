@@ -7,13 +7,13 @@
 			<table class="table table-hover table-striped table-condensed">
 				<tr>
 					<td><b>Year</b></td>
-					<td><b>Author</b></td>
+					<td><a href="" ng-click="predicate = 'author'; reverse=false">Author</a></td>
 					<td><b>Email</b></td>
-					<td><b>Lines Added</b></td>
-					<td><b>Lines Removed</b></td>
+					<td><a href="" ng-click="predicate = 'linesAdded'; reverse=true">Lines Added</a></td>
+					<td><a href="" ng-click="predicate = 'linesRemoved'; reverse=true">Lines Removed</a></td>
 					<td><b>Commits</b></td>
 				</tr>
-				<tr ng-repeat="stat in statistics">
+				<tr ng-repeat="stat in statistics | orderBy:predicate:reverse">
 					<td><p>{{stat.year}}</p></td>
 					<td><p>{{stat.author}}</p></td>
 					<td><p>{{stat.authorEmail}}</p></td>

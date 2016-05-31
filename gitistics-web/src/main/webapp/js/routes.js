@@ -51,6 +51,9 @@ gitistics.config([ '$routeProvider', function($routeProvider) {
 	}).when('/repository/:repositoryName/teamTesterByMonth', {
 		templateUrl : 'pages/teamTesterByMonth.html',
 		controller : 'TeamTesterByMonthController'
+	}).when('/repository/:repositoryName/defects', {
+		templateUrl : 'pages/defects.html',
+		controller : 'DefectsController'
 	}).otherwise({
 		redirectTo : '/repositories'
 	});
