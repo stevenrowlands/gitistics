@@ -21,6 +21,7 @@
 			<column name="commitdate" type="date" />
 			<column name="committeremail" type="varchar(254)" />
 			<column name="committername" type="varchar(255)" />
+			<column name="revert" type="varchar(40)" />
 			<column name="linesremoved" type="bigint" defaultValueNumeric="0">
 				<constraints nullable="false" />
 			</column>
@@ -55,6 +56,20 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<createTable tableName="commitstreak">
+			<column name="startcommitid" type="varchar(40)">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="committername" type="varchar(255)" />
+			<column name="startdate" type="date" />
+			<column name="enddate" type="date" />
+			<column name="commits" type="bigint" defaultValueNumeric="0">
+				<constraints nullable="false" />
+			</column>
+			<column name="repoid" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
 		<addForeignKeyConstraint baseColumnNames="repoid"
 			baseTableName="commit" constraintName="fk_commits_repo" onDelete="CASCADE"
 			onUpdate="NO ACTION" referencedColumnNames="location"
@@ -66,6 +81,10 @@
 		<addAutoIncrement columnDataType="int"
 			columnName="id" incrementBy="1" startWith="1"
 			tableName="commitfile" />
+		<addForeignKeyConstraint baseColumnNames="repoid"
+				baseTableName="commitstreak" constraintName="fk_commitstreak_repo" onDelete="CASCADE"
+				onUpdate="NO ACTION" referencedColumnNames="location"
+				referencedTableName="repo" />
 	</changeSet>
 
 </databaseChangeLog>

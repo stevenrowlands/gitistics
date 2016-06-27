@@ -3,21 +3,17 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12 col-md-12 main">
-			<h2 class="sub-header">Janitor</h2>
-			<p>Most number of commits with something to do with cleaning</p>
+			<h2 class="sub-header">WhoWroteThisS#!tAnway</h2>
+			<p>Most number of self reverted commits 
 			<table class="table table-hover table-striped table-condensed">
 				<tr>
 					<td><b>Year</b></td>
 					<td><b>Author</b></td>
-					<td><b>Lines Added</b></td>
-					<td><b>Lines Removed</b></td>
-					<td><b>Commits</b></td>
+					<td><b>Count</b></td>
 				</tr>
 				<tr ng-repeat="stat in statistics">
 					<td><p>{{stat.year}}</p></td>
 					<td><p>{{stat.author}}</p></td>
-					<td><p>{{stat.linesAdded}}</p></td>
-					<td><p>{{stat.linesRemoved}}</p></td>
 					<td><p>{{stat.commits}}</p></td>
 				</tr>
 			</table>

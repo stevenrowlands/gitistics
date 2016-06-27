@@ -1,5 +1,9 @@
 package org.gitistics.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.FutureTask;
+
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.gitistics.jpa.entities.Repo;
@@ -8,6 +12,7 @@ import org.gitistics.revwalk.RevWalkUtils;
 import org.gitistics.visitor.CommitWalker;
 import org.gitistics.visitor.commit.CommitCountVisitor;
 import org.gitistics.visitor.commit.CommitVisitor;
+import org.gitistics.visitor.commit.PostProcessor;
 import org.gitistics.visitor.commit.TreeWalkVisitorImpl;
 import org.gitistics.visitor.commit.filechange.FileChangeCallback;
 import org.slf4j.Logger;
@@ -25,6 +30,10 @@ public class ThreadedRepositoryProcessor implements RepositoryProcessor {
 	private FileChangeCallback [] fileChangeCallbacks;
 	
 	private int numThreads = Integer.getInteger("gitistics.numthreads", 16);
+	
+
+	@Autowired
+	private PostProcessor postProcessor;
 	
 	public void process(Repo repo) {
 		try { 
@@ -44,6 +53,7 @@ public class ThreadedRepositoryProcessor implements RepositoryProcessor {
 		logger.info("commit count {}", count);
 		int blockSize = count / numThreads;
 		int position = 1;
+		List<FutureTask> fts = new ArrayList<FutureTask>();
 		while (position < count) {
 			int end = position + blockSize;
 			if (end > count) {
@@ -53,9 +63,15 @@ public class ThreadedRepositoryProcessor implements RepositoryProcessor {
 			RevWalk walk = RevWalkUtils.newRevWalk(repository);
 			walk.setRevFilter(new CommitRangeFilter(position, end));
 			CommitVisitor visitor = new TreeWalkVisitorImpl(repository, fileChangeCallbacks);
-			new Thread(new ThreadedWalker(visitor, walk)).start();
+			FutureTask ft = new FutureTask(new ThreadedWalker(visitor, walk), null);
+			new Thread(ft).start();
+			fts.add(ft);
 			position = end + 1;
 		}
+		for (FutureTask ft : fts) {
+			ft.get();
+		}
+		postProcessor.process();
 	}
 	
 	@Autowired

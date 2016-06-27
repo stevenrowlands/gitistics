@@ -98,6 +98,7 @@ public class JPAStatisticsProviderTest  {
 		assertThat(statistics.get(0).getCommits(), equalTo(12L));
 	}
 
+
 	@Test
 	@Transactional
 	@Rollback

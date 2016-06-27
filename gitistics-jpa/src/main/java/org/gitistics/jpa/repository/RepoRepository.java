@@ -17,4 +17,7 @@ public interface RepoRepository extends PagingAndSortingRepository<Repo, String>
 	@Modifying
 	@Query("delete Commit c where c.repo = ?1")
 	int deleteCommits(Repo repo);
+	
+	
+	Repo findByName(String name);
 }

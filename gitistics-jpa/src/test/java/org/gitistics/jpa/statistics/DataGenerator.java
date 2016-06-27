@@ -26,6 +26,8 @@ public class DataGenerator {
 	@Autowired
 	private RepoRepository repoRepository;
 	
+	private String previous = null;
+	
 	public void generate(String author, DateTime current, ReadablePeriod increment, int repeat, int lines) {
 		for (int i = 0; i < repeat; i++) {
 			Repo r = new Repo("/some/dir/.git");
@@ -36,10 +38,12 @@ public class DataGenerator {
 			c.setCommitDate(new Date(current.getMillis()));
 			c.setRepo(r);
 			c.setAuthorName(author);
+			c.setCommitterName(author);
 			c.setLinesAdded(lines);
 			c.setLinesRemoved(lines);
+			c.setRevert(previous);
 			commitRepository.save(c);
-			
+			previous = c.getCommitId();
 			CommitFile cf = new CommitFile(c);
 			cf.setCommit(c);
 			cf.setFileName("ABC");

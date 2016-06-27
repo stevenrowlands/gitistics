@@ -8,6 +8,7 @@ import org.gitistics.jpa.entities.Repo;
 import org.gitistics.jpa.repository.RepoRepository;
 import org.gitistics.repository.AsynchronousRepositoryWrapper;
 import org.gitistics.repository.RepositoryProcessor;
+import org.gitistics.visitor.commit.PostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ public class RepositoryController {
 	
 	@Autowired
 	private RepositoryProcessor repositoryProcessor;
+	
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody

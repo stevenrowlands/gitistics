@@ -36,6 +36,9 @@ gitistics.config([ '$routeProvider', function($routeProvider) {
 	}).when('/repository/:repositoryName/awardReverter', {
 		templateUrl : 'pages/awardReverter.html',
 		controller : 'AwardReverterController'
+	}).when('/repository/:repositoryName/awardRevertSelf', {
+		templateUrl : 'pages/awardRevertSelf.html',
+		controller : 'AwardRevertSelfController'
 	}).when('/repository/:repositoryName/awardTester', {
 		templateUrl : 'pages/awardTester.html',
 		controller : 'AwardTesterController'
@@ -45,6 +48,9 @@ gitistics.config([ '$routeProvider', function($routeProvider) {
 	}).when('/repository/:repositoryName/awardAuthor', {
 		templateUrl : 'pages/awardAuthor.html',
 		controller : 'AwardAuthorController'
+	}).when('/repository/:repositoryName/awardStreaker', {
+		templateUrl : 'pages/awardStreaker.html',
+		controller : 'AwardStreakerController'
 	}).when('/repository/:repositoryName/teamTester', {
 		templateUrl : 'pages/teamTester.html',
 		controller : 'TeamTesterController'

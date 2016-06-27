@@ -36,6 +36,16 @@ public class Commit {
 	private long linesRemoved = 0;
 
 	private boolean valid = true;
+	
+	private String revert;
+
+	public String getRevert() {
+		return revert;
+	}
+
+	public void setRevert(String revert) {
+		this.revert = revert;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "repoId", nullable = false)
