@@ -12,6 +12,7 @@ Get Started
 Clone the repository and then run
 
 ```
+bower install
 ./gradlew jettyRun
 ```
 
